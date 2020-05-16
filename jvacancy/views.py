@@ -7,17 +7,41 @@ from django.views import View
 
 class MainView(View):
     def get(self, request, *args, **kwargs):
-        return HttpResponse("Это главная страница")
+        return render(
+            request, 'jvacancy/index.html', context={
+                # 'title': title,
+                # 'subtitle': subtitle,
+                # 'description': description,
+                # 'departures': departures,
+                # 'index_tours': index_tours,
+            }
+        )
 
 class VacanciesView(View):
     def get(self, request, *args, **kwargs):
-        return HttpResponse("Это список вакансий")
+        return render(
+            request, 'jvacancy/vacancies.html', context={
+            }
+        )
 
 class VacanciesCategoryView(View):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse("Это вакансии по категориям")
+    def get(self, request, category, *args, **kwargs):
+        return render(
+            request, 'jvacancy/vacancies.html', context={
+            }
+        )
+
+class CompanyView(View):
+    def get(self, request, company, *args, **kwargs):
+        return render(
+            request, 'jvacancy/company.html', context={
+            }
+        )
 
 class VacancyView(View):
-    def get(self, request, *args, **kwargs):
-        return HttpResponse("Это страница вакансии")
+    def get(self, request, id, *args, **kwargs):
+        return render(
+            request, 'jvacancy/vacancy.html', context={
+            }
+        )
 
