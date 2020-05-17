@@ -10,8 +10,8 @@ class Command(BaseCommand):
 	print('----------------------')
 	def handle(self, *args, **kwargs):
 		for company in companies:
-			company = Company.objects.create(name=company['title'], employee_count=randint(10, 200))
+			company = Company.objects.create(name=company['title'], employee_count=randint(10, 200), logo="https://place-hold.it/100x60")
 		for specialty in specialties:
-			specialty = Specialty.objects.create(code=specialty['code'], title=specialty['title'])
+			specialty = Specialty.objects.create(code=specialty['code'], title=specialty['title'], picture="https://place-hold.it/100x60")
 		for job in jobs:
 			job = Vacancy.objects.create(title=job['title'], specialty=specialty, company=company, salary_min=job['salary_from'], salary_max=job['salary_to'], published_at=job['posted'], description=job['desc'])
