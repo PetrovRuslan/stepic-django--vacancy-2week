@@ -2,20 +2,23 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import Http404
 from django.views import View
+from jvacancy.models import *
 
 # Create your views here.
 
 class MainView(View):
-    def get(self, request, *args, **kwargs):
-        return render(
-            request, 'jvacancy/index.html', context={
-                # 'title': title,
-                # 'subtitle': subtitle,
-                # 'description': description,
-                # 'departures': departures,
-                # 'index_tours': index_tours,
-            }
-        )
+	def get(self, request, *args, **kwargs):
+		specialty_list = list(Specialty.objects.values_list('title'))
+		return render(
+			request, 'jvacancy/index.html', context={
+				'specialty_list': specialty_list,
+				# 'title': title,
+				# 'subtitle': subtitle,
+				# 'description': description,
+				# 'departures': departures,
+				# 'index_tours': index_tours,
+			}
+		)
 
 class VacanciesView(View):
     def get(self, request, *args, **kwargs):
