@@ -14,8 +14,4 @@ class Command(BaseCommand):
 		for specialty in specialties:
 			specialty = Specialty.objects.create(code=specialty['code'], title=specialty['title'])
 		for job in jobs:
-			print(job)
-			job = Vacancy.objects.create(title=job['title'], salary_min=job['salary_from'], salary_max=job['salary_to'], published_at=job['posted'], description=job['desc'])
-			# job.save()
-		print('----------------------')
-		print('end insert data in DB')
+			job = Vacancy.objects.create(title=job['title'], specialty=specialty, company=company, salary_min=job['salary_from'], salary_max=job['salary_to'], published_at=job['posted'], description=job['desc'])
