@@ -51,10 +51,16 @@ class VacanciesCategoryView(View):
 		)
 
 class CompanyView(View):
-    def get(self, request, company, *args, **kwargs):
-        return render(
-            request, 'jvacancy/company.html', context={
-            }
+	def get(self, request, company, *args, **kwargs):
+		company_profile = Company.objects.get(id=company)
+		vacancies_company = Vacancy.objects.filter(company__name = company_profile.name)
+		number_of_vacancies_company = len(vacancies_company)
+		return render(
+			request, 'jvacancy/company.html', context={
+				'company_profile': company_profile,
+				'vacancies_company': vacancies_company,
+				'number_of_vacancies_company': number_of_vacancies_company,
+			}
         )
 
 class VacancyView(View):
