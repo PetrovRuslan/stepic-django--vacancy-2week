@@ -15,7 +15,7 @@ class MainView(View):
 
 		for code in specialty_code_list:
 			specialty_dict[code[0]] = {'quantity': len(Vacancy.objects.filter(specialty__code=code[0])), 'title': code[1]}
-			
+
 		company_list = (Company.objects.values_list('name'))
 
 		for company_name in company_list:
@@ -29,18 +29,31 @@ class MainView(View):
 		)
 
 class VacanciesView(View):
-    def get(self, request, *args, **kwargs):
-        return render(
-            request, 'jvacancy/vacancies.html', context={
-            }
-        )
+	def get(self, request, *args, **kwargs):
+		# test = Specialty.objects.values_list('code', 'title')
+		vacancies = Vacancy.objects.all()
+		number_of_vacancies = len(vacancies)
+		return render(
+			request, 'jvacancy/vacancies.html', context={
+				'vacancies': vacancies,
+				'number_of_vacancies': number_of_vacancies,
+			}
+		)
 
 class VacanciesCategoryView(View):
-    def get(self, request, category, *args, **kwargs):
-        return render(
-            request, 'jvacancy/vacancies.html', context={
-            }
-        )
+	def get(self, request, category, *args, **kwargs):
+		test_dict = []
+		vacancy_category = Vacancy.objects.filter(specialty__code=category)
+		cat_code_list = Specialty.objects.values_list('code')
+		cat_title_list = Specialty.objects.values_list('title')
+		for vacancy in vacancy_category:
+			test_dict.append(j.company.name)
+		return render(
+			request, 'jvacancy/category.html', context={
+				'vacancy_category': vacancy_category,
+				'test_dict': test_dict,
+			}
+		)
 
 class CompanyView(View):
     def get(self, request, company, *args, **kwargs):
