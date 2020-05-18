@@ -64,9 +64,11 @@ class CompanyView(View):
         )
 
 class VacancyView(View):
-    def get(self, request, id, *args, **kwargs):
-        return render(
-            request, 'jvacancy/vacancy.html', context={
-            }
-        )
+	def get(self, request, id, *args, **kwargs):
+		vacancy = Vacancy.objects.get(id=id)
+		return render(
+			request, 'jvacancy/vacancy.html', context={
+	        	'vacancy': vacancy,
+			}
+	    )
 
