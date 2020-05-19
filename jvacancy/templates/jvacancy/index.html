@@ -33,7 +33,7 @@
           <img class="mx-auto d-block" src="https://place-hold.it/80x80" width="80" height="80" alt="">
           <div class="card-body">
             <p class="card-text mb-2">{{ value.title }} </p>
-            <p class="card-text"><a href="#">{{ value.quantity }} вакансий</a></p>
+            <p class="card-text"><a href="vacancies/cat/{{ value.code }}">{{ value.quantity }} вакансий</a></p>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
             <img class="mx-auto d-block mw-100" src="{{ value.logo }}" alt="">
           </a>
           <div class="card-body">
-            <p class="card-text"><a href="#">{{ value.vacancy_quantity }} вакансий</a></p>
+            <p class="card-text"><a href="company/{{ value.id }}">{{ value.vacancy_quantity }} вакансий</a></p>
           </div>
         </div>
       </div>
