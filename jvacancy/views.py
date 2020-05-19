@@ -14,12 +14,12 @@ class MainView(View):
 		specialty_code_list = list(Specialty.objects.values_list('code', 'title'))
 
 		for code in specialty_code_list:
-			specialty_dict[code[0]] = {'quantity': len(Vacancy.objects.filter(specialty__code=code[0])), 'title': code[1]}
+			specialty_dict[code[0]] = {'quantity': len(Vacancy.objects.filter(specialty__code=code[0])), 'title': code[1], 'code': code[0]}
 
-		company_list = (Company.objects.values_list('name'))
+		company_list = Company.objects.values_list('name', 'id')
 
 		for company_name in company_list:
-			company_dict[company_name[0]] = {'logo':"https://place-hold.it/100x60", 'vacancy_quantity': len(Vacancy.objects.filter(company__name=company_name[0]))}
+			company_dict[company_name[0]] = {'id': company_name[1], 'logo':"https://place-hold.it/100x60", 'vacancy_quantity': len(Vacancy.objects.filter(company__name=company_name[0]))}
 		
 		return render(
 			request, 'jvacancy/index.html', context={
@@ -41,12 +41,14 @@ class VacanciesView(View):
 
 class VacanciesCategoryView(View):
 	def get(self, request, category, *args, **kwargs):
+		title_category = Specialty.objects.get(code=category)
 		vacancies_category = Vacancy.objects.filter(specialty__code=category)
 		number_of_vacancies_category = len(vacancies_category)
 		return render(
 			request, 'jvacancy/category.html', context={
 				'vacancies_category': vacancies_category,
 				'number_of_vacancies_category': number_of_vacancies_category,
+				'title_category': title_category,
 			}
 		)
 
