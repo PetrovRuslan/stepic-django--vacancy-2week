@@ -20,8 +20,8 @@ from jvacancy.views import MainView, VacanciesView, VacanciesCategoryView, Compa
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', MainView.as_view()),
-	path('vacancies', VacanciesView.as_view()),
-	path('vacancies/cat/<str:category>', VacanciesCategoryView.as_view()),
-	path('company/<int:company>', CompanyView.as_view()),
+    path('vacancies', VacanciesView.as_view()),
+    path('vacancies/cat/<str:category>', VacanciesCategoryView.as_view()),
+    path('company/<int:company>', CompanyView.as_view()),
     path('vacancies/<int:id>', VacancyView.as_view()),
 ]
