@@ -9,20 +9,14 @@ from jvacancy.models import Vacancy, Company, Specialty
 class MainView(View):
     def get(self, request, *args, **kwargs):
         specialty_dict = {}
+        specialty_list = Specialty.objects.values_list('title', 'code')
+        for specialty in specialty_list:
+            specialty_dict[specialty[0]] = {'quantity':len(Vacancy.objects.filter(specialty__title=specialty[0])), 'code': specialty[1]}
+
         company_dict = {}
-
-        specialty_code_list = list(Specialty.objects.values_list('code', 'title'))
-
-        for code in specialty_code_list:
-            specialty_dict[code[0]] = {'quantity': len(Vacancy.objects.filter(specialty__code=code[0])),
-                                       'title': code[1], 'code': code[0]}
-
-        company_list = Company.objects.values_list('name', 'id')
-
-        for company_name in company_list:
-            company_dict[company_name[0]] = {'id': company_name[1], 'logo': "https://place-hold.it/100x60",
-                                             'vacancy_quantity': len(
-                                                 Vacancy.objects.filter(company__name=company_name[0]))}
+        company_list = Company.objects.values_list('name', 'logo', 'id')
+        for company in company_list:
+            company_dict[company[0]] = {'quantity': len(Vacancy.objects.filter(company__name=company[0])), 'logo': 'https://place-hold.it/100x60', 'id': company[2]}
 
         return render(
             request, 'jvacancy/index.html', context={
