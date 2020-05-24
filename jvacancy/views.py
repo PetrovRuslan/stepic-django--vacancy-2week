@@ -74,3 +74,60 @@ class VacancyView(View):
                 'vacancy': vacancy,
             }
         )
+
+
+class SendApplicationView(View):
+    def get(self, request, vacancy_id, *args, **kwargs):
+        return render(
+            request, 'jvacancy/sent.html', context={
+                'vacancy_id': vacancy_id,
+            }
+        )
+
+
+class MyCompanyView(View):
+    def get(self, request, *args, **kwargs):
+        return render(
+            request, 'jvacancy/company.html', context={
+            }
+        )
+
+
+class MyVacanciesView(View):
+    def get(self, request, *args, **kwargs):
+        return render(
+            request, 'jvacancy/vacancies.html', context={
+            }
+        )
+
+
+class MyVacancyView(View):
+    def get(self, request, vacancy_id, *args, **kwargs):
+        return render(
+            request, 'jvacancy/vacancy.html', context={
+            }
+        )
+
+
+class LoginView(View):
+    def get(self, request, *args, **kwargs):
+        return render(
+            request, 'jvacancy/login.html', context={
+            }
+        )
+
+
+class RegisterView(View):
+    def get(self, request, *args, **kwargs):
+        return render(
+            request, 'jvacancy/register.html', context={
+            }
+        )
+
+
+class LogoutView(View):
+    def get(self, request, *args, **kwargs):
+        return render(
+            request, 'jvacancy/login.html', context={
+            }
+        )
