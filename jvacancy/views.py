@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import Http404
 from django.views import View
-from jvacancy.models import Vacancy, Company, Specialty
+from jvacancy.models import Vacancy, Company, Specialty, PostcardForm
 
 
 # Create your views here.
@@ -129,5 +129,14 @@ class LogoutView(View):
     def get(self, request, *args, **kwargs):
         return render(
             request, 'jvacancy/login.html', context={
+            }
+        )
+
+class TestView(View):
+    def get(self, request, *args, **kwargs):
+        postcard_form = PostcardForm()
+        return render(
+            request, 'jvacancy/test.html', context={
+                'postcard_form': postcard_form,
             }
         )

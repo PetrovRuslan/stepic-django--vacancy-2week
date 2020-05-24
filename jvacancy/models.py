@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django import forms
 
 # Create your models here.
 
@@ -36,3 +37,11 @@ class Application(models.Model):
     written_cover_letter = models.CharField(max_length=256)
     vacancy = models.ForeignKey('Vacancy', on_delete=models.CASCADE, related_name='applications')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applications')
+
+
+class PostcardForm(forms.Form):
+    address = forms.CharField(label='Destination Address')
+    author = forms.CharField(min_length=3)
+    compliment = forms.CharField(max_length=1024)
+    date_of_delivery = forms.DateField(input_formats=['%Y/%m/%d'])
+    email = forms.EmailField()
