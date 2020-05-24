@@ -17,7 +17,7 @@ class Vacancy(models.Model):
 class Company(models.Model):
     name = models.CharField(max_length=64)
     location = models.CharField(max_length=64)
-    logo = models.CharField(max_length=64)
+    logo = models.ImageField(upload_to='MEDIA_COMPANY_IMAGE_DIR')
     description = models.CharField(max_length=256)
     employee_count = models.IntegerField()
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None,
@@ -27,7 +27,7 @@ class Company(models.Model):
 class Specialty(models.Model):
     code = models.CharField(max_length=64)
     title = models.CharField(max_length=64)
-    picture = models.CharField(max_length=128)
+    picture = models.ImageField(upload_to='MEDIA_SPECIALITY_IMAGE_DIR')
 
 
 class Application(models.Model):
