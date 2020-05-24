@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -20,9 +20,19 @@ class Company(models.Model):
     logo = models.CharField(max_length=64)
     description = models.CharField(max_length=256)
     employee_count = models.IntegerField()
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None,
+        null=True)
 
 
 class Specialty(models.Model):
     code = models.CharField(max_length=64)
     title = models.CharField(max_length=64)
     picture = models.CharField(max_length=128)
+
+
+class Application(models.Model):
+    written_username = models.CharField(max_length=64)
+    written_phone = models.CharField(max_length=64)
+    written_cover_letter = models.CharField(max_length=256)
+    vacancy = models.ForeignKey('Vacancy', on_delete=models.CASCADE, related_name='applications')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applications')
