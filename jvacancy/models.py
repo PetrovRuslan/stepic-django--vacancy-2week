@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from stepic_vacancy.settings import MEDIA_SPECIALITY_IMAGE_DIR, MEDIA_COMPANY_IMAGE_DIR
 
 # Create your models here.
 
@@ -16,18 +17,18 @@ class Vacancy(models.Model):
 
 class Company(models.Model):
     name = models.CharField(max_length=64)
-    location = models.CharField(max_length=64)
-    logo = models.ImageField(upload_to='MEDIA_COMPANY_IMAGE_DIR')
-    description = models.CharField(max_length=256)
+    location = models.CharField(max_length=64, null=True, blank=True)
+    logo = models.ImageField(upload_to=MEDIA_COMPANY_IMAGE_DIR)
+    description = models.CharField(max_length=256, null=True, blank=True)
     employee_count = models.IntegerField()
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default=None,
-        null=True)
+        null=True, blank=True)
 
 
 class Specialty(models.Model):
     code = models.CharField(max_length=64)
     title = models.CharField(max_length=64)
-    picture = models.ImageField(upload_to='MEDIA_SPECIALITY_IMAGE_DIR')
+    picture = models.ImageField(upload_to=MEDIA_SPECIALITY_IMAGE_DIR)
 
 
 class Application(models.Model):
