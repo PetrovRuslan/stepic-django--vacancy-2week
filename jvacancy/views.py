@@ -2,7 +2,13 @@ from django.shortcuts import render
 from django.http import Http404
 from django.views import View
 from jvacancy.models import Vacancy, Company, Specialty
+from jvacancy.forms import *
+from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
+from django.urls import reverse
 
+
+from django.shortcuts import redirect
 
 # Create your views here.
 
@@ -105,22 +111,35 @@ class MyVacancyView(View):
     def get(self, request, vacancy_id, *args, **kwargs):
         return render(
             request, 'jvacancy/vacancy.html', context={
-            }
-        )
-
-
-class LoginView(View):
-    def get(self, request, *args, **kwargs):
-        return render(
-            request, 'jvacancy/login.html', context={
+                
             }
         )
 
 
 class RegisterView(View):
     def get(self, request, *args, **kwargs):
+        sign_up = SignUp()
         return render(
             request, 'jvacancy/register.html', context={
+                'sign_up': sign_up,
+            }
+        )
+
+
+class MySignupView(View):
+
+    def post(self, request, *args, **kwargs):
+        sign_up = SignUp(request.POST)
+        if sign_up.is_valid():
+            data = sign_up.cleaned_data
+            User.objects.create_user(username=data['login'], password=data['password'])
+            return render(
+                request, 'jvacancy/login.html')
+
+class MyLoginView(View):
+    def get(self, request, *args, **kwargs):
+        return render(
+            request, 'jvacancy/login.html', context={
             }
         )
 
@@ -131,3 +150,4 @@ class LogoutView(View):
             request, 'jvacancy/login.html', context={
             }
         )
+
