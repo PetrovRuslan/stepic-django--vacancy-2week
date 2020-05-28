@@ -28,9 +28,14 @@
           </li>
         </ul>
         <ul class="navbar-nav col-2 justify-content-end">
-          <li class="nav-item active">
+          {% if request.user.is_authenticated %}
+            <li><a href="/logout">Выйти</a></li>
+            {% else %}
+            <li><a href="/login">Войти</a></li>
+          {% endif %}
+          <!-- <li class="nav-item active">
             <a href="#" class="nav-link font-weight-bold">Вход</a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </nav>

@@ -1,6 +1,6 @@
 from django import forms
 
-class SignUp(forms.Form):
+class SignupForm(forms.Form):
 	login = forms.EmailField()
 	password = forms.CharField(label='Destination Address')
     

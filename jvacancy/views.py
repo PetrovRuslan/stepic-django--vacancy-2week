@@ -116,9 +116,9 @@ class MyVacancyView(View):
         )
 
 
-class RegisterView(View):
+class MyRegisterView(View):
     def get(self, request, *args, **kwargs):
-        sign_up = SignUp()
+        sign_up = SignupForm()
         return render(
             request, 'jvacancy/register.html', context={
                 'sign_up': sign_up,
@@ -129,17 +129,27 @@ class RegisterView(View):
 class MySignupView(View):
 
     def post(self, request, *args, **kwargs):
-        sign_up = SignUp(request.POST)
+        sign_up = SignupForm(request.POST)
         if sign_up.is_valid():
             data = sign_up.cleaned_data
             User.objects.create_user(username=data['login'], password=data['password'])
             return render(
                 request, 'jvacancy/login.html')
 
+
+from django.contrib.auth.views import LoginView
+
+
+class MyTestLoginView(LoginView):
+    redirect_authenticated_user = True
+    template_name = 'jvacancy/login.html'
+
 class MyLoginView(View):
     def get(self, request, *args, **kwargs):
+        login_form = LoginForm()
         return render(
             request, 'jvacancy/login.html', context={
+                'login_form': login_form,
             }
         )
 

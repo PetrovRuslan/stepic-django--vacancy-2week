@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from jvacancy.views import MainView, VacanciesView, VacanciesCategoryView, CompanyView, VacancyView, SendApplicationView, MyCompanyView, MyVacanciesView, MyVacancyView, RegisterView, LogoutView, MySignupView
+from jvacancy.views import MainView, VacanciesView, VacanciesCategoryView, CompanyView, VacancyView, SendApplicationView, MyCompanyView, MyVacanciesView, MyVacancyView, MyRegisterView, LogoutView, MySignupView, MyLoginView, MyTestLoginView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,11 +31,11 @@ urlpatterns = [
     path('mycompany', MyCompanyView.as_view()),
     path('mycompany/vacancies', MyVacanciesView.as_view()),
     path('mycompany/vacancies/<int:vacancy_id>', MyVacancyView.as_view()),
-    # path('login', MyLoginView.as_view()),
-    path('register', RegisterView.as_view()),
+    path('login', MyLoginView.as_view()),
+    path('register', MyRegisterView.as_view()),
     path('logout', LogoutView.as_view()),
     path('signup', MySignupView.as_view()),
-    # path('authorization', AuthorizationView.as_view()),
+    path('authorization', MyTestLoginView.as_view()),
 ]
 
 if settings.DEBUG:
