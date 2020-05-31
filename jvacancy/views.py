@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.views import View
-from jvacancy.models import Vacancy, Company, Specialty
+from jvacancy.models import Vacancy, Company, Specialty, Application
 from jvacancy.forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
@@ -74,21 +74,33 @@ class CompanyView(View):
 
 class VacancyView(View):
     def get(self, request, id, *args, **kwargs):
+        vacancy_response_form = VacacyResponseForm()
         vacancy = Vacancy.objects.get(id=id)
         return render(
             request, 'jvacancy/vacancy.html', context={
+                'vacancy_response_form': vacancy_response_form,
                 'vacancy': vacancy,
             }
         )
 
 
 class SendApplicationView(View):
-    def get(self, request, vacancy_id, *args, **kwargs):
-        return render(
-            request, 'jvacancy/sent.html', context={
-                'vacancy_id': vacancy_id,
-            }
-        )
+    def post(self, request, vacancy_id, *args, **kwargs):
+        vacancy_responce = VacacyResponseForm(request.POST)
+        vacancy = Vacancy.objects.get(id=vacancy_id)
+        logged_in_user = request.user
+        if vacancy_responce.is_valid():
+            data = vacancy_responce.cleaned_data
+            if request.user.is_authenticated:
+                application = Application.objects.create(written_username=data['written_username'], written_phone=data['written_phone'], written_cover_letter=data['written_cover_letter'], vacancy=vacancy, user=logged_in_user)
+                return render(
+                    request, 'jvacancy/sent.html'
+                )
+            else:
+                application = Application.objects.create(written_username=data['written_username'], written_phone=data['written_phone'], written_cover_letter=data['written_cover_letter'], vacancy=vacancy)
+                return render(
+                    request, 'jvacancy/sent.html'
+                )
 
 
 class MyCompanyView(View):
@@ -127,37 +139,15 @@ class MyRegisterView(View):
 
 
 class MySignupView(View):
-
     def post(self, request, *args, **kwargs):
         sign_up = SignupForm(request.POST)
         if sign_up.is_valid():
             data = sign_up.cleaned_data
             User.objects.create_user(username=data['login'], password=data['password'])
-            return render(
-                request, 'jvacancy/login.html')
+            return redirect('/login')
 
 
-from django.contrib.auth.views import LoginView
-
-
-class MyTestLoginView(LoginView):
+class MyLoginView(LoginView):
     redirect_authenticated_user = True
     template_name = 'jvacancy/login.html'
-
-class MyLoginView(View):
-    def get(self, request, *args, **kwargs):
-        login_form = LoginForm()
-        return render(
-            request, 'jvacancy/login.html', context={
-                'login_form': login_form,
-            }
-        )
-
-
-class LogoutView(View):
-    def get(self, request, *args, **kwargs):
-        return render(
-            request, 'jvacancy/login.html', context={
-            }
-        )
 

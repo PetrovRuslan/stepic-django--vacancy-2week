@@ -36,4 +36,4 @@ class Application(models.Model):
     written_phone = models.CharField(max_length=64)
     written_cover_letter = models.CharField(max_length=256)
     vacancy = models.ForeignKey('Vacancy', on_delete=models.CASCADE, related_name='applications')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applications')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='applications', blank=True, null=True)
