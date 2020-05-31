@@ -5,8 +5,8 @@ from jvacancy.models import Vacancy, Company, Specialty, Application
 from jvacancy.forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
-from django.urls import reverse
-
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import CreateView
 
 from django.shortcuts import redirect
 
@@ -105,11 +105,35 @@ class SendApplicationView(View):
 
 class MyCompanyView(View):
     def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            logged_in_user = request.user.get_username()
+            user_company = Company.objects.filter(owner__username=logged_in_user)
+            create_company_form = CreateCompanyForm(request.POST, request.FILES)
+            # value_user_companies = len(user_companies)
+            if len(user_company):
+                return render(
+                    request, 'jvacancy/company-edit.html', context={
+                        'user_company': user_company,
+                        'create_company_form': create_company_form,
+                    }
+                )
+            else:
+                return render(
+                    request, 'jvacancy/company-create.html', context={
+                        'create_company_form': create_company_form,
+                    }
+                )
+        else:
+            return redirect('/login')
+
+
+class CreateCompanyView(View):
+    def get(self, request, *args, **kwargs):
+        edit_company_form = ""
         return render(
-            request, 'jvacancy/company.html', context={
+            request, 'jvacancy/company-edit.html', context={
             }
         )
-
 
 class MyVacanciesView(View):
     def get(self, request, *args, **kwargs):
@@ -143,7 +167,7 @@ class MySignupView(View):
         sign_up = SignupForm(request.POST)
         if sign_up.is_valid():
             data = sign_up.cleaned_data
-            User.objects.create_user(username=data['login'], password=data['password'])
+            User.objects.create_user(first_name=data['first_name'], last_name=data['last_name'], username=data['login'], password=data['password'])
             return redirect('/login')
 
 

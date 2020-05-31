@@ -18,6 +18,18 @@
             <p class="h5 font-weight-light">Создайте аккаунт</p>
           </div>
           <div class="mt-5 form-label-group">
+            <p class="text-muted">Имя</p>
+            <!-- <input type="email" id="inputEmail" class="form-control" required autofocus> -->
+            {{ sign_up.first_name }}
+            <label for="inputName"></label>
+          </div>
+          <div class="form-label-group">
+            <p class="text-muted">Фамилия</p>
+            <!-- <input type="email" id="inputEmail" class="form-control" required autofocus> -->
+            {{ sign_up.last_name }}
+            <label for="inputSurname"></label>
+          </div>
+          <div class="form-label-group">
             <p class="text-muted">Электропочта</p>
             <!-- <input type="email" id="inputEmail" class="form-control" required autofocus> -->
             {{ sign_up.login }}

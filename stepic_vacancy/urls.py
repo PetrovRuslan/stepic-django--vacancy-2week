@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from jvacancy.views import MainView, VacanciesView, VacanciesCategoryView, CompanyView, VacancyView, SendApplicationView, MyCompanyView, MyVacanciesView, MyVacancyView, MyRegisterView, MySignupView, MyLoginView
+from jvacancy.views import MainView, VacanciesView, VacanciesCategoryView, CompanyView, VacancyView, SendApplicationView, MyCompanyView, MyVacanciesView, MyVacancyView, MyRegisterView, MySignupView, MyLoginView, CreateCompanyView, Application
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
@@ -28,14 +28,14 @@ urlpatterns = [
     path('company/<int:company>', CompanyView.as_view()),
     path('vacancies/<int:id>', VacancyView.as_view()),
     path('vacancies/<int:vacancy_id>/send', SendApplicationView.as_view()),
-    path('mycompany', MyCompanyView.as_view()),
+    path('mycompany', MyCompanyView.as_view(), name='my_company'),
     path('mycompany/vacancies', MyVacanciesView.as_view()),
     path('mycompany/vacancies/<int:vacancy_id>', MyVacancyView.as_view()),
-    # path('echo', VacancyResponceView.as_view()),
+    path('create_company', CreateCompanyView.as_view(), name='create_company'),
     path('register', MyRegisterView.as_view()),
-    path('logout', LogoutView.as_view()),
+    path('logout', LogoutView.as_view(), name='logout'),
     path('signup', MySignupView.as_view()),
-    path('login', MyLoginView.as_view()),
+    path('login', MyLoginView.as_view(), name='login'),
 ]
 
 if settings.DEBUG:
